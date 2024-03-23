@@ -30,7 +30,7 @@ class Config:
     HTTP_PORT = 3000
     SOCKET_HOST = ""
     SOCKET_PORT = 5000
-    DB_URI = "mongodb://localhost:27017"
+    DB_URI = "mongodb://mongo:27017"
     BUFFER_SIZE = 1024
     BASE_DIR = Path(__file__).parent
     TEMPLATES_DIR = BASE_DIR.joinpath("templates")
