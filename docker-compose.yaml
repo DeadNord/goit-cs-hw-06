@@ -3,7 +3,7 @@ version: '3.8'
 services:
   web:
     build: .
-    command: python ./src/main.py
+    command: python src/main.py --http
     ports:
       - "3000:3000"
     depends_on:
@@ -11,7 +11,7 @@ services:
 
   socket:
     build: .
-    command: python ./src/main.py
+    command: python src/main.py --socket
     ports:
       - "5000:5000"
     depends_on:
@@ -23,7 +23,6 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
-    
 
 volumes:
   mongo-data:

@@ -11,11 +11,12 @@ over network sockets.
 from datetime import datetime
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
-import multiprocessing
 import logging
 import mimetypes
 import socket
 from urllib.parse import urlparse, unquote_plus
+import multiprocessing
+import argparse
 
 
 # Related third-party imports
@@ -163,18 +164,27 @@ if __name__ == "__main__":
         level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
     )
 
-    # Logging startup messages for both servers
-    logging.info("Starting HTTP server...")
-    logging.info("Starting Socket server...")
+    parser = argparse.ArgumentParser(description="Run the web or socket server")
+    parser.add_argument("--http", action="store_true", help="Run the HTTP server")
+    parser.add_argument("--socket", action="store_true", help="Run the Socket server")
 
-    # Creating separate processes for HTTP and Socket servers
-    http_process = multiprocessing.Process(target=run_http_server)
-    socket_process = multiprocessing.Process(target=run_socket_server)
+    args = parser.parse_args()
 
-    # Starting both servers
-    http_process.start()
-    socket_process.start()
+    if args.http and args.socket:
+        logging.error("Please specify only one server at a time.")
+    elif args.http:
+        logging.info("Starting HTTP server...")
+        run_http_server()
+    elif args.socket:
+        logging.info("Starting Socket server...")
+        run_socket_server()
+    else:
+        logging.info("Starting both HTTP and Socket servers...")
+        http_process = multiprocessing.Process(target=run_http_server)
+        socket_process = multiprocessing.Process(target=run_socket_server)
 
-    # Waiting for both servers to complete
-    http_process.join()
-    socket_process.join()
+        http_process.start()
+        socket_process.start()
+
+        http_process.join()
+        socket_process.join()
