@@ -148,6 +148,7 @@ def run_socket_server():
         try:
             while True:
                 data, _ = sock.recvfrom(Config.BUFFER_SIZE)
+                logging.info("Received data: %s", data)
                 client.save_message_from_udp_data(data)
         except KeyboardInterrupt:
             pass
