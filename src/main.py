@@ -29,7 +29,7 @@ class Config:
 
     HTTP_HOST = ""
     HTTP_PORT = 3000
-    SOCKET_HOST = ""
+    SOCKET_HOST = "socket"
     SOCKET_PORT = 5000
     DB_URI = "mongodb://mongo:27017"
     BUFFER_SIZE = 1024
